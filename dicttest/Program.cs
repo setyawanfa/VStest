@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace dicttest
 {
     class Program
     {
         public struct Point
         {
-            public int x,y;
+            public double x,y;
             
-            public Point(int p1,int p2)
+            public Point(double p1,double p2)
             {
                 x = p1;
                 y = p2;
             }
+        }
+        static public double distance(Point p1, Point p2)
+        {
+            double dist = Math.Sqrt(Math.Pow(p2.y - p1.y, 2) + Math.Pow(p2.x - p2.x, 2));
+            return dist;
         }
         static void Main(string[] args)
         {
@@ -36,8 +42,24 @@ namespace dicttest
             key = dictnum.Keys.ToList();
             for (int i = 0; i < key.Capacity; i++)
             {
-                Console.WriteLine(key[i]+" "+dictnum[key[i]].x+" "+dictnum[key[i]].y);
-                
+                double jarak = 10000000;
+                Point titik1 = dictnum[key[i]];
+                int ketemu = 0;
+                for (int j = 0; j < key.Capacity; j++)
+                {
+                    if (i != j)
+                    {
+                        Point titik2 = dictnum[key[j]];
+                        double ss = distance(titik1, titik2);
+                        if (ss < jarak)
+                        {
+                            jarak = ss;
+                            ketemu = j;
+                        }
+                    }
+                    
+                }
+                Console.WriteLine("{0} nearest point is {1} ", key[i], key[ketemu]);
             }
             Console.Read();
         }
